@@ -1,17 +1,17 @@
 {
   "domain": "anma_cloud",
   "name": "ANMA Cloud",
-  "version": "0.4.3",
-  "documentation": "https://github.com/bobantonbob/anma-cloud",
-  "requirements": [],
-  "dependencies": [
-    "http",
-    "recorder"
-  ],
   "codeowners": [
     "@bobantonbob"
   ],
   "config_flow": true,
+  "dependencies": [
+    "http",
+    "recorder"
+  ],
+  "documentation": "https://github.com/bobantonbob/anma-cloud",
   "iot_class": "local_push",
-  "issue_tracker": "https://github.com/bobantonbob/anma-cloud/issues"
+  "issue_tracker": "https://github.com/bobantonbob/anma-cloud/issues",
+  "requirements": [],
+  "version": "0.4.3"
 }

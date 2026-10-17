@@ -20,6 +20,13 @@ def state(eid, value='100', unit='W', name='Battery power'):
     return types.SimpleNamespace(entity_id=eid,state=value,attributes={'unit_of_measurement':unit,'friendly_name':name})
 
 class SourceTests(unittest.TestCase):
+    def test_inverter_status_accepts_connection_and_preserves_value(self):
+        for domain in ('sensor', 'binary_sensor', 'input_text'):
+            source = state(domain + '.connection', 'on', None)
+            self.assertTrue(mapping.compatible(source, 'inverter_status'))
+            self.assertEqual(mapping.normalized_value(source, 'inverter_status'), 'on')
+        self.assertIsNone(mapping.normalized_value(state('sensor.connection', 'unavailable', None), 'inverter_status'))
+
     def test_battery_state_source(self):
         for raw,expected in [('charge','charge'),('Discharging','discharge'),('idle','idle'),('unknown',None),('fault',None)]:
             self.assertEqual(mapping.normalized_value(state('sensor.status',raw,None),'battery_state'),expected)
