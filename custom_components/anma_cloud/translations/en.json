@@ -1,0 +1,88 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "ANMA Cloud",
+        "description": "Create the ANMA Cloud standard sensor integration."
+      }
+    },
+    "abort": {
+      "already_configured": "ANMA Cloud is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "ANMA Cloud · Energy flow",
+        "description": "**ANMA · Your energy at a glance**\n\n{summary}\n\n---\n\nOpen a field and type part of a name or entity ID, e.g. bat. Results show the name, value, unit and entity ID. Values were read at {updated}; an open list does not update automatically. Select “Refresh values” below and submit for a new snapshot. Your selections remain in the draft. “Not mapped” clears that mapping.",
+        "data": {
+          "pv_power": "Solar PV power",
+          "load_power": "House load power",
+          "battery_soc": "Battery SOC",
+          "battery_power": "Battery power",
+          "grid_power": "Grid power",
+          "grid_voltage": "Grid voltage",
+          "pv_energy_today": "Solar energy today",
+          "load_energy_today": "Load energy today",
+          "grid_import_today": "Grid import today",
+          "grid_export_today": "Grid export today",
+          "battery_charge_today": "Battery charge energy today",
+          "battery_discharge_today": "Battery discharge energy today",
+          "grid_available": "Grid available (binary sensor)",
+          "inverter_fault": "Inverter fault (binary sensor)",
+          "pv_forecast_today": "PV forecast today",
+          "pv_forecast_tomorrow": "PV forecast tomorrow",
+          "invert_battery_power": "Invert battery power sign",
+          "invert_grid_power": "Invert grid power sign",
+          "form_action": "Next step",
+          "battery_state": "Battery state",
+          "inverter_status": "Inverter status / Connection"
+        },
+        "data_description": {
+          "invert_battery_power": "ANMA: positive means charging; negative means discharging. Check the result on the next screen.",
+          "invert_grid_power": "ANMA: positive means import; negative means export."
+        }
+      },
+      "review": {
+        "title": "Review before saving",
+        "description": "{summary}\n\n---\n\nValues as of {updated}. The last column includes unit conversion and sign inversion.\n\n{preview}",
+        "menu_options": {
+          "save": "Save mappings",
+          "edit": "Back to selection",
+          "refresh": "Refresh current values"
+        }
+      },
+      "pairing": {
+        "title": "ANMA · Website connection",
+        "description": "Save your source mappings first. The code grants read-only access to ANMA metrics over Tailscale. A new code replaces the previous one; redeeming it replaces the website connection credential.",
+        "menu_options": {
+          "generate_code": "Generate 15-minute code",
+          "revoke": "Revoke website access",
+          "edit": "Back to source selection"
+        }
+      },
+      "generate_code": {
+        "title": "ANMA · Pairing code",
+        "description": "## `{code}`\n\nValid for 15 minutes, until HA restarts, or until redeemed. Give it to the owner. Enter the home name, this machine’s Tailscale IP and code on the website. Keep it private. Submit to return."
+      },
+      "revoke": {
+        "title": "Revoke access?",
+        "description": "Confirm to stop the website reading data. HA entities remain. Re-pairing will be required to restore access."
+      }
+    },
+    "error": {
+      "entity_not_found": "Entity not found. Select an existing entity from the list.",
+      "incompatible_source": "This entity type or unit is not compatible with the metric.",
+      "self_reference": "ANMA output entities cannot be used as ANMA sources."
+    }
+  },
+  "selector": {
+    "form_action": {
+      "options": {
+        "review": "Review before saving",
+        "refresh": "Refresh values in the lists",
+        "pairing": "Connect ANMA website"
+      }
+    }
+  }
+}
