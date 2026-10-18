@@ -2,58 +2,60 @@
 
 Home Assistant integration for the ANMA Cloud energy dashboard. Map your existing solar, battery, load and grid entities, preview their current readings, and connect your installation using a short-lived pairing code over Tailscale.
 
-## Як виглядає ANMA Cloud
+## Dashboard preview
 
-Інтеграція передає вибрані показники Home Assistant до вебкабінету ANMA Cloud. Нижче — справжні скріншоти вебкабінету з **демонстраційними даними**, а не картка всередині Home Assistant. Реальні показники та історія залежать від підключених сутностей.
+The integration supplies selected Home Assistant readings to the ANMA Cloud web dashboard. These screenshots show the web dashboard with **demo data**, rather than a card inside Home Assistant. Actual readings and history depend on your connected entities. The screenshots show the Ukrainian interface; English is also supported.
 
-### На комп’ютері
+### Desktop
 
-Енергопотоки, сонячна генерація, споживання, акумулятор, мережа та графіки за останні 24 години.
+Energy flows, solar production, household consumption, battery and grid readings, and charts covering the last 24 hours.
 
-![ANMA Cloud — демо-дашборд на комп’ютері](docs/screenshots/dashboard-desktop.jpg)
+![ANMA Cloud desktop demo dashboard](docs/screenshots/dashboard-desktop.jpg)
 
-### На телефоні — розмір iPhone X
+### Mobile — iPhone X viewport
 
-Адаптивний інтерфейс у браузері з областю перегляду **375 × 812 CSS px**. Це перевірка розміру екрана, не знімок із фізичного iPhone. Навігація згортається в меню, енергопотоки залишаються на головному екрані.
+Responsive browser layout at **375 × 812 CSS pixels**. This is a viewport preview, not a capture from a physical iPhone. Navigation collapses into a menu while energy flows remain on the main screen.
 
-<img src="docs/screenshots/dashboard-iphone-x.jpg" alt="ANMA Cloud — мобільний демо-дашборд у розмірі iPhone X" width="375">
+<img src="docs/screenshots/dashboard-iphone-x.jpg" alt="ANMA Cloud mobile demo dashboard at the iPhone X viewport size" width="375">
 
-[Переглянути мобільний скріншот у повному розмірі](docs/screenshots/dashboard-iphone-x.jpg)
+[View the full-size mobile screenshot](docs/screenshots/dashboard-iphone-x.jpg)
 
-## Встановлення через HACS — рекомендовано
+## Install with HACS — recommended
 
-[Додати ANMA Cloud до HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=bobantonbob&repository=anma-cloud&category=integration)
+[Add ANMA Cloud to HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=bobantonbob&repository=anma-cloud&category=integration)
 
-1. Встановіть і налаштуйте HACS у Home Assistant.
-2. Натисніть посилання вище. Або HACS → меню ⋮ → Custom repositories: URL `https://github.com/bobantonbob/anma-cloud`, тип **Integration**.
-3. Знайдіть **ANMA Cloud** у HACS і натисніть Download.
-4. Перезапустіть Home Assistant.
-5. Налаштування → Пристрої та служби → Додати інтеграцію → **ANMA Cloud**.
-6. Відкрийте «Налаштувати», виберіть сутності та збережіть. Пошук показує назву, entity_id і поточне значення.
+1. Install and configure HACS in Home Assistant.
+2. Follow the link above. Alternatively, open HACS → ⋮ menu → Custom repositories, enter `https://github.com/bobantonbob/anma-cloud`, and select **Integration**.
+3. Find **ANMA Cloud** in HACS and select Download.
+4. Restart Home Assistant.
+5. Open Settings → Devices & services → Add integration → **ANMA Cloud**.
+6. Open Configure, select your entities, and save. Entity search shows the name, entity ID, and current value.
 
-Поки репозиторій не прийнято до загального каталогу HACS, його необхідно один раз додати як custom repository. Після цього HACS керує встановленням та оновленнями.
+Until the repository is accepted into the default HACS catalog, add it once as a custom repository. HACS then handles installation and updates.
 
-## Ручне встановлення
+## Manual installation
 
-Завантажте ZIP вихідного коду зі сторінки Releases. Скопіюйте папку `custom_components/anma_cloud` до `/config/custom_components/anma_cloud` у Home Assistant (без подвійної вкладеності). Перезапустіть Home Assistant та додайте інтеграцію. Конфігурація наявної інтеграції зберігається при оновленні файлів.
+Download the source code ZIP from the [Releases page](https://github.com/bobantonbob/anma-cloud/releases). Copy `custom_components/anma_cloud` into `/config/custom_components/anma_cloud` in Home Assistant, avoiding an extra nested directory. Restart Home Assistant and add the integration. Updating the files preserves your existing integration configuration.
 
-## Підключення кабінету
+## Connect the web dashboard
 
-У налаштуваннях інтеграції відкрийте «Підключення сайту» та створіть одноразовий код. У ANMA Cloud оберіть «Додати будинок», введіть назву, Tailscale IPv4 та код. Код діє 15 хвилин. Сервер кабінету й Home Assistant мають бути доступні через вашу мережу Tailscale; інтеграція сама Tailscale не встановлює.
+In the integration options, open the website connection step and generate a one-time pairing code. In ANMA Cloud, select Add house and enter a name, the Home Assistant Tailscale IPv4 address, and the code. The code expires after 15 minutes. The dashboard server and Home Assistant must be reachable over your Tailscale network; this integration does not install Tailscale.
 
-## Можливості
+## Features
 
-- PV, навантаження, SOC, потужність і стан акумулятора, мережа, прогнози та лічильники енергії.
-- Окремий статус інвертора / Connection, включно з binary_sensor.
-- Історія з Home Assistant Recorder; доступність залежить від записаної історії джерел.
-- Лише читання вибраних сутностей; немає команд керування інвертором.
-- Український та англійський інтерфейс.
+- Solar production, household load, battery SOC, battery power and state, grid readings, forecasts, and energy counters.
+- Dedicated inverter / Connection status, including binary sensors.
+- History from Home Assistant Recorder, subject to the history available for your source entities.
+- Read-only access to selected entities, with no inverter control commands.
+- English and Ukrainian interfaces.
 
-## Підтримка
+## Support
 
-[Контакти та підключення ANMA Electric](https://anma-electric.com.ua/) · [Повідомити про помилку](https://github.com/bobantonbob/anma-cloud/issues)
+[ANMA Electric contacts and setup services](https://anma-electric.com.ua/) · [Report an issue](https://github.com/bobantonbob/anma-cloud/issues)
 
-Не публікуйте ключі, коди підключення, приватні адреси та дампи Home Assistant у issues.
+Do not post secrets, pairing codes, private addresses, or Home Assistant dumps in issues.
+
+[Additional documentation in Ukrainian](README_UA.md)
 
 ## Development
 
