@@ -3,7 +3,10 @@
     "step": {
       "user": {
         "title": "ANMA Cloud",
-        "description": "Create the ANMA Cloud standard sensor integration."
+        "description": "Add a separate entry for each inverter, then select its source entities in Configure.",
+        "data": {
+          "name": "Inverter name"
+        }
       }
     },
     "abort": {

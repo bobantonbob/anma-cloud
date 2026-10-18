@@ -41,6 +41,14 @@ Download the source code ZIP from the [Releases page](https://github.com/bobanto
 
 In the integration options, open the website connection step and generate a one-time pairing code. In ANMA Cloud, select Add house and enter a name, the Home Assistant Tailscale IPv4 address, and the code. The code expires after 15 minutes. The dashboard server and Home Assistant must be reachable over your Tailscale network; this integration does not install Tailscale.
 
+## Multiple inverters on one Home Assistant
+
+Supported from **v0.4.4**. Add ANMA Cloud again through Settings → Devices & services → Add integration for each inverter. Give each entry a distinct name, then open Configure and map only that inverter's source entities.
+
+Generate a pairing code from each entry separately. Add each inverter as a separate house in the web dashboard, using the **same Tailscale IP address** and its own code. Each entry has independent mappings, credentials, state readings, and history. Revoking one entry does not revoke another.
+
+The web dashboard must also include the multi-inverter pairing update, which allows distinct installation IDs at the same IP address. Existing entries retain their installation IDs and mappings; no removal or re-pairing is required when upgrading.
+
 ## Features
 
 - Solar production, household load, battery SOC, battery power and state, grid readings, forecasts, and energy counters.

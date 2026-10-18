@@ -28,7 +28,7 @@ class PairingWindow:
         self.failures = 0
         return '-'.join(self.code[i:i+4] for i in range(0,32,4))
 
-    def valid(self, data, retry=False):
+    def valid(self, data, retry=False, count_failure=True):
         if not isinstance(data, dict) or time.time() > self.expires or self.failures >= 20:
             return False
         nonce, stamp, digest, proof = (data.get(k) for k in ('nonce','timestamp','credential_hash','proof'))
@@ -43,7 +43,7 @@ class PairingWindow:
             return False
         expected = hmac.new(self.code.encode(), f'{nonce}\n{stamp}\n{digest}'.encode(), hashlib.sha256).hexdigest()
         valid = hmac.compare_digest(expected, proof)
-        if not valid:
+        if not valid and count_failure:
             self.failures += 1
         return valid
 
@@ -70,10 +70,14 @@ class AnmaConnectorView(HomeAssistantView):
         entries = hass.config_entries.async_entries(DOMAIN)
         if not entries:
             raise web.HTTPNotFound()
-        entry = entries[0]
-        pairing = window(hass, entry.entry_id)
-        if not pairing.valid(data, retry=action=='pair'):
+        matches = [(candidate, window(hass, candidate.entry_id)) for candidate in entries
+                   if window(hass, candidate.entry_id).valid(
+                       data, retry=action == 'pair', count_failure=False)]
+        if len(matches) != 1:
+            for candidate in entries:
+                window(hass, candidate.entry_id).valid(data, retry=action == 'pair')
             raise web.HTTPUnauthorized()
+        entry, pairing = matches[0]
         if action == 'pair' and not pairing.used_proof:
             # No await between validation/consumption: concurrent claims cannot both succeed.
             hass.config_entries.async_update_entry(entry, data={**entry.data, 'connector_hash':data['credential_hash']})
@@ -87,13 +91,16 @@ class AnmaConnectorView(HomeAssistantView):
             raise web.HTTPNotFound()
         hass = request.app[KEY_HASS]
         entries = hass.config_entries.async_entries(DOMAIN)
-        entry = entries[0] if entries else None
         header = request.headers.get('Authorization','')
-        if not entry or not entry.data.get('connector_hash') or not header.startswith('Bearer ') or len(header)>256:
+        if not header.startswith('Bearer ') or len(header)>256:
             raise web.HTTPUnauthorized()
         digest = hashlib.sha256(header[7:].encode()).hexdigest()
-        if not hmac.compare_digest(digest, entry.data['connector_hash']):
+        matches = [candidate for candidate in entries
+                   if candidate.data.get('connector_hash') and
+                   hmac.compare_digest(digest, candidate.data['connector_hash'])]
+        if len(matches) != 1:
             raise web.HTTPUnauthorized()
+        entry = matches[0]
         if action == 'history':
             from .history import read_history
             return self.json(await read_history(hass, entry), headers={'Cache-Control':'no-store'})

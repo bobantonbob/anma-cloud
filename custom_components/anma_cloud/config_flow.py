@@ -14,10 +14,10 @@ class AnmaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input=None):
         if user_input is not None:
-            await self.async_set_unique_id('anma_cloud_main')
+            await self.async_set_unique_id(secrets.token_hex(16))
             self._abort_if_unique_id_configured()
-            return self.async_create_entry(title='ANMA Cloud', data={'installation_id': secrets.token_hex(16)})
-        return self.async_show_form(step_id='user', data_schema=vol.Schema({}))
+            return self.async_create_entry(title=user_input['name'].strip() or 'ANMA Cloud', data={'installation_id': secrets.token_hex(16)})
+        return self.async_show_form(step_id='user', data_schema=vol.Schema({vol.Required('name', default='ANMA Cloud'): str}))
 
     @staticmethod
     @callback

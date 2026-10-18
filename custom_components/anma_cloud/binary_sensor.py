@@ -17,7 +17,7 @@ class AnmaBinary(BinarySensorEntity):
         self._attr_name = FIELDS[key][0]
         self._attr_unique_id = f'{entry.entry_id}_{key}'
         self._attr_suggested_object_id = f'anma_{key}'
-        self._attr_device_info = DeviceInfo(identifiers={(DOMAIN, entry.entry_id)}, name='ANMA Cloud')
+        self._attr_device_info = DeviceInfo(identifiers={(DOMAIN, entry.entry_id)}, name=entry.title)
         self._attr_available = False
         self._attr_is_on = None
 

@@ -20,7 +20,7 @@ class AnmaSensor(SensorEntity):
         self._attr_name = label
         self._attr_unique_id = f'{entry.entry_id}_{key}'
         self._attr_suggested_object_id = f'anma_{key}'
-        self._attr_device_info = DeviceInfo(identifiers={(DOMAIN, entry.entry_id)}, name='ANMA Cloud')
+        self._attr_device_info = DeviceInfo(identifiers={(DOMAIN, entry.entry_id)}, name=entry.title)
         self._attr_native_unit_of_measurement = unit
         if device_class:
             self._attr_device_class = SensorDeviceClass(device_class)

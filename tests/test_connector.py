@@ -66,6 +66,45 @@ class ConnectorTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(payload['states'][0]['entity_id'],'sensor.anma_battery_power')
         self.assertNotIn(self.code,str(payload));self.assertNotIn(self.token,str(payload))
 
+    async def test_multiple_entries_are_isolated(self):
+        second = types.SimpleNamespace(entry_id='second', data={'installation_id':'d'*32},
+                                       options={'battery_soc':'sensor.soc'})
+        self.hass.config_entries.async_entries = lambda _: [self.entry, second]
+        second_window = module.window(self.hass, 'second')
+        second_code = second_window.generate().replace('-', '')
+        first_token = self.token
+        await self.client.post('/api/anma_cloud/pair', json=self.payload())
+        self.token = 'second-credential'
+        proof = self.payload(second_code)
+        # Repeated valid verification of one entry must not lock out another.
+        for _ in range(21):
+            response = await self.client.post('/api/anma_cloud/verify', json=proof)
+            self.assertEqual(response.status, 200)
+            self.assertEqual((await response.json())['installation_id'], 'd'*32)
+        self.assertEqual(self.window.failures, 0)
+        self.assertEqual((await self.client.post('/api/anma_cloud/pair', json=proof)).status, 200)
+        self.assertEqual((await self.client.post('/api/anma_cloud/pair', json=proof)).status, 200)
+        for token, installation, field in [(first_token, 'a'*32, 'battery_power'),
+                                           (self.token, 'd'*32, 'battery_soc')]:
+            response = await self.client.get('/api/anma_cloud/states', headers={'Authorization':'Bearer '+token})
+            data = await response.json()
+            self.assertEqual(data['installation_id'], installation)
+            self.assertEqual([item['entity_id'] for item in data['states']], ['sensor.anma_'+field])
+        history_module = types.ModuleType(package.__name__+'.history')
+        async def history(hass, entry):
+            return {'installation_id':entry.data['installation_id'], 'history':[]}
+        history_module.read_history = history
+        from unittest.mock import patch
+        with patch.dict(sys.modules, {history_module.__name__: history_module}):
+            for token, installation in [(first_token, 'a'*32), (self.token, 'd'*32)]:
+                response = await self.client.get('/api/anma_cloud/history', headers={'Authorization':'Bearer '+token})
+                self.assertEqual((await response.json())['installation_id'], installation)
+        second.data.pop('connector_hash')
+        self.assertEqual((await self.client.get('/api/anma_cloud/states', headers={'Authorization':'Bearer '+self.token})).status, 401)
+        self.assertEqual((await self.client.get('/api/anma_cloud/states', headers={'Authorization':'Bearer '+first_token})).status, 200)
+        self.hass.config_entries.async_entries = lambda _: [second]
+        self.assertEqual((await self.client.get('/api/anma_cloud/states', headers={'Authorization':'Bearer '+first_token})).status, 401)
+
     async def test_wrong_expired_malformed_and_unauthed(self):
         for payload in [self.payload('0'*32),{},[],{'timestamp':'bad'}]:
             response=await self.client.post('/api/anma_cloud/pair',json=payload)
