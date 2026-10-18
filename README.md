@@ -10,15 +10,15 @@ Home Assistant integration for the ANMA Cloud energy dashboard. Map your existin
 
 Енергопотоки, сонячна генерація, споживання, акумулятор, мережа та графіки за останні 24 години.
 
-![ANMA Cloud — демо-дашборд на комп’ютері](docs/screenshots/dashboard-desktop.png)
+![ANMA Cloud — демо-дашборд на комп’ютері](docs/screenshots/dashboard-desktop.jpg)
 
 ### На телефоні — розмір iPhone X
 
 Адаптивний інтерфейс у браузері з областю перегляду **375 × 812 CSS px**. Це перевірка розміру екрана, не знімок із фізичного iPhone. Навігація згортається в меню, енергопотоки залишаються на головному екрані.
 
-<img src="docs/screenshots/dashboard-iphone-x.png" alt="ANMA Cloud — мобільний демо-дашборд у розмірі iPhone X" width="375">
+<img src="docs/screenshots/dashboard-iphone-x.jpg" alt="ANMA Cloud — мобільний демо-дашборд у розмірі iPhone X" width="375">
 
-[Переглянути мобільний скріншот у повному розмірі](docs/screenshots/dashboard-iphone-x.png)
+[Переглянути мобільний скріншот у повному розмірі](docs/screenshots/dashboard-iphone-x.jpg)
 
 ## Встановлення через HACS — рекомендовано
 
