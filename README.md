@@ -2,6 +2,24 @@
 
 Home Assistant integration for the ANMA Cloud energy dashboard. Map your existing solar, battery, load and grid entities, preview their current readings, and connect your installation using a short-lived pairing code over Tailscale.
 
+## Як виглядає ANMA Cloud
+
+Інтеграція передає вибрані показники Home Assistant до вебкабінету ANMA Cloud. Нижче — справжні скріншоти вебкабінету з **демонстраційними даними**, а не картка всередині Home Assistant. Реальні показники та історія залежать від підключених сутностей.
+
+### На комп’ютері
+
+Енергопотоки, сонячна генерація, споживання, акумулятор, мережа та графіки за останні 24 години.
+
+![ANMA Cloud — демо-дашборд на комп’ютері](docs/screenshots/dashboard-desktop.png)
+
+### На телефоні — розмір iPhone X
+
+Адаптивний інтерфейс у браузері з областю перегляду **375 × 812 CSS px**. Це перевірка розміру екрана, не знімок із фізичного iPhone. Навігація згортається в меню, енергопотоки залишаються на головному екрані.
+
+<img src="docs/screenshots/dashboard-iphone-x.png" alt="ANMA Cloud — мобільний демо-дашборд у розмірі iPhone X" width="375">
+
+[Переглянути мобільний скріншот у повному розмірі](docs/screenshots/dashboard-iphone-x.png)
+
 ## Встановлення через HACS — рекомендовано
 
 [Додати ANMA Cloud до HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=bobantonbob&repository=anma-cloud&category=integration)
