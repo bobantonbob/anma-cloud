@@ -22,23 +22,23 @@ Energy flows, solar production, household consumption, battery and grid readings
 
 ![ANMA Cloud desktop demo dashboard](docs/screenshots/dashboard-desktop.jpg)
 
-### Mobile вЂ” iPhone X viewport
+### Mobile — iPhone X viewport
 
-Responsive browser layout at **375 Г— 812 CSS pixels**. This is a viewport preview, not a capture from a physical iPhone. Navigation collapses into a menu while energy flows remain on the main screen.
+Responsive browser layout at **375 × 812 CSS pixels**. This is a viewport preview, not a capture from a physical iPhone. Navigation collapses into a menu while energy flows remain on the main screen.
 
 <img src="docs/screenshots/dashboard-iphone-x.jpg" alt="ANMA Cloud mobile demo dashboard at the iPhone X viewport size" width="375">
 
 [View the full-size mobile screenshot](docs/screenshots/dashboard-iphone-x.jpg)
 
-## Install with HACS вЂ” recommended
+## Install with HACS — recommended
 
 [Add ANMA Cloud to HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=bobantonbob&repository=anma-cloud&category=integration)
 
 1. Install and configure HACS in Home Assistant.
-2. Follow the link above. Alternatively, open HACS в†’ в‹® menu в†’ Custom repositories, enter `https://github.com/bobantonbob/anma-cloud`, and select **Integration**.
+2. Follow the link above. Alternatively, open HACS → ⋮ menu → Custom repositories, enter `https://github.com/bobantonbob/anma-cloud`, and select **Integration**.
 3. Find **ANMA Cloud** in HACS and select Download.
 4. Restart Home Assistant.
-5. Open Settings в†’ Devices & services в†’ Add integration в†’ **ANMA Cloud**.
+5. Open Settings → Devices & services → Add integration → **ANMA Cloud**.
 6. Open Configure, select your entities, and save. Entity search shows the name, entity ID, and current value.
 
 Until the repository is accepted into the default HACS catalog, add it once as a custom repository. HACS then handles installation and updates.
@@ -53,7 +53,7 @@ In the integration options, open the website connection step and generate a one-
 
 ## Multiple inverters on one Home Assistant
 
-Supported from **v0.4.4**. Add ANMA Cloud again through Settings в†’ Devices & services в†’ Add integration for each inverter. Give each entry a distinct name, then open Configure and map only that inverter's source entities.
+Supported from **v0.4.4**. Add ANMA Cloud again through Settings → Devices & services → Add integration for each inverter. Give each entry a distinct name, then open Configure and map only that inverter's source entities.
 
 Generate a pairing code from each entry separately. Add each inverter as a separate house in the web dashboard, using the **same Tailscale IP address** and its own code. Each entry has independent mappings, credentials, state readings, and history. Revoking one entry does not revoke another.
 
@@ -69,7 +69,7 @@ The web dashboard must also include the multi-inverter pairing update, which all
 
 ## Support
 
-[ANMA Electric contacts and setup services](https://anma-electric.com.ua/) В· [Report an issue](https://github.com/bobantonbob/anma-cloud/issues)
+[ANMA Electric contacts and setup services](https://anma-electric.com.ua/) · [Report an issue](https://github.com/bobantonbob/anma-cloud/issues)
 
 Do not post secrets, pairing codes, private addresses, or Home Assistant dumps in issues.
 
